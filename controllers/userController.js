@@ -20,11 +20,11 @@ exports.registerUser = async (req, res) => {
   try {
     const { name, email, password, pic } = req.body;
 
-    if (!name || !email || !password) {
-      return res
-        .status(400)
-        .send({ status: false, message: "Please Enter all the Feilds" });
-    }
+    // if (!name || !email || !password) {
+    //   return res
+    //     .status(400)
+    //     .send({ status: false, message: "Please Enter all the Feilds" });
+    // }
 
     if (!name) {
       return res.status(400).send({
@@ -35,7 +35,7 @@ exports.registerUser = async (req, res) => {
     if (!email) {
       return res.status(400).send({
         success: false,
-        message: "Please Enter Your Email",
+        message: "Please Enter Your username",
       });
     }
     if (!password) {
@@ -94,14 +94,14 @@ exports.login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.send({ success: false, message: "User Not Found" });
+      return res.status(400).send({ success: false, message: "User Not Found" });
     }
 
     //to check if the password matches or not
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-      res.send({
+     return res.status(400).send({
         success: false,
         message: "password didnot match,Try Again!!",
       });
@@ -116,7 +116,7 @@ exports.login = async (req, res) => {
       );
     }
 
-    res.send({
+    res.status(200).send({
       success: true,
       refresh_token: refresh_Token,
       message: "Login Successful",

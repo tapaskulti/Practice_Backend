@@ -22,10 +22,10 @@ exports.gettodo = async (req, res) => {
   try {
     const findTodo = await Todo.find({ todoBy: new ObjectId(req.user._id) });
     if (!findTodo) {
-      res.status(401).send({ status: false, message: "todo Not Found" });
+      res.status(400).send({ status: false, message: "todo Not Found" });
     }
 
-    res.status(201).send({
+    res.status(200).send({
       status: true,
       message: "todo Fetched succefully",
       data: findTodo,
@@ -39,9 +39,9 @@ exports.deleteTodo = async (req, res) => {
   try {
     const todoDelete = await Todo.findByIdAndRemove({ _id: req.query.id });
     if (!todoDelete) {
-      return res.status(401).send({ status: false, message: "todo Not Found" });
+      return res.status(400).send({ status: false, message: "todo Not Found" });
     }
-    res.status(201).send({
+    res.status(200).send({
       status: true,
       message: "todo deleted succefully",
       data: todoDelete,
