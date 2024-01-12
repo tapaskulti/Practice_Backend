@@ -50,3 +50,20 @@ exports.deleteTodo = async (req, res) => {
     return res.status(500).send({ status: false, message: error.message });
   }
 };
+
+
+exports.updateTodo = async (req, res) => {
+  try {
+    const todoUpdate = await Todo.findOneAndUpdate({ _id: req.query.id },{todo:req.body.newTodo});
+    if (!todoUpdate) {
+      return res.status(400).send({ status: false, message: "todo Not Found" });
+    }
+    res.status(200).send({
+      status: true,
+      message: "todo Updated succefully",
+      data: todoUpdate,
+    });
+  } catch (error) {
+    return res.status(500).send({ status: false, message: error.message });
+  }
+};
